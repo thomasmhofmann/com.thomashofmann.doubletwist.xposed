@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.thomashofmann.doubletwist.xposed"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../ks.jks")
+            storePassword "com.thomashofmann.doubletwist.xposed"
+            keyAlias "key"
+            keyPassword "com.thomashofmann.doubletwist.xposed"
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'de.robv.android.xposed:api:53'
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "com.thomashofmann.doubletwist.xposed-${variant.versionName}.apk"
+    }
+}
