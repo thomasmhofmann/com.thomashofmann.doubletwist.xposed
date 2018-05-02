@@ -31,6 +31,17 @@ public class XposedModule implements IXposedHookLoadPackage {
             XposedBridge.log("Loaded " + lpparam.packageName);
             try {
                 /**
+                 * Make sure the broadcast is sent. Normally this only happens if one of the supported last.fm scrobbler apps is installed and the preference is set to scrobble to last.fm
+                 */
+                XposedHelpers.findAndHookMethod("ya", lpparam.classLoader, "G", Context.class, new XC_MethodReplacement() {
+                    @Override
+                    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                        Log.i(TAG, "Returning true for last.fm scrobbling.");
+                        return Boolean.TRUE;
+                    }
+                });
+
+                /**
                  * Remove the {@link ComponentName f} from the intents so that it is implicit and can be seen by all apps.
                  */
                 XposedHelpers.findAndHookMethod(ContextWrapper.class,"sendBroadcast", Intent.class, new XC_MethodHook() {

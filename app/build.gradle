@@ -1,22 +1,16 @@
 apply plugin: 'com.android.application'
 
+apply from: 'signingConfigs.gradle'
+
 android {
     compileSdkVersion 26
+
     defaultConfig {
         applicationId "com.thomashofmann.doubletwist.xposed"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-    }
-
-    signingConfigs {
-        release {
-            storeFile file("../ks.jks")
-            storePassword "com.thomashofmann.doubletwist.xposed"
-            keyAlias "key"
-            keyPassword "com.thomashofmann.doubletwist.xposed"
-        }
     }
 
     buildTypes {
